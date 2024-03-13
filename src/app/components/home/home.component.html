@@ -9,8 +9,8 @@
     </select>
 </div>
 
-<div class="form-group mt-2">
-    <dx-scheduler 
+<div class="form-group mt-2" id="addAppointment">
+    <dx-scheduler  (onAppointmentFormOpening)="addAppointment()"
     timeZone="America/Los_Angeles" 
     [dataSource]="appointmentsData"
     [views]="['day', 'week', 'workWeek', 'month']" 
