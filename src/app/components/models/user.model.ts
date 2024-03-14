@@ -3,7 +3,8 @@ export class UserModel{
     firstName: string = "";
     lastName: string = "";
     fullName: string ="";
-    email: string = "";
+    email: string | null | undefined = "";
+    phoneNumber: string | null | undefined = "";
     identityNumber: string = "";
     fullAddress: string = "";
     dateOfBirth: string | null | undefined= "";
@@ -18,6 +19,7 @@ export class DoctorDetailModel{
     workingDays: string[] = [];
     appointmentPrice: number = 0;
     specialtyName: string = "";
+    price: number = 0;
 }
 
 export enum Specialty

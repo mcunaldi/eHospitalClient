@@ -72,7 +72,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     console.log(event);
     this.appointmentData = event.appointmentData;
     const doctorName = this.doctors.find(p=> p.id == this.selectedDoctorId)?.fullName;
-    const specialtyName = this.doctors.find(p=> p.id == this.selectedDoctorId)?.doctorDetail?.specialty;
+    const specialtyName = this.doctors.find(p=> p.id == this.selectedDoctorId)?.doctorDetail?.specialtyName;
 
     this.appointmentData.doctorName = `${doctorName} - ${specialtyName}`
     event.cancel = true;
@@ -81,7 +81,29 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   add(form: NgForm) {
     if (form.valid) {
-      $("#addAppointmentModal").modal('hide');
+      const patientId = this.addModel.patient.id === "" ? null : this.addModel.patient.id;
+      const data = {
+        "doctorId": this.selectedDoctorId,
+        "patientId": patientId,
+        "firstName": this.addModel.patient.firstName,
+        "lastName": this.addModel.patient.lastName,
+        "fullAddress": this.addModel.patient.fullAddress,
+        "email": this.addModel.patient.email,
+        "phoneNumber": this.addModel.patient.phoneNumber,
+        "identityNumber": this.addModel.patient.identityNumber,
+        "dateOfBirth": this.addModel.patient.dateOfBirth,
+        "bloodType": this.addModel.patient.bloodType,
+        "startDate": this.appointmentData.startDate,
+        "endDate": this.appointmentData.endDate,
+        "price": this.doctors.find(p=> p.id == this.addModel.doctorId)?.doctorDetail?.price
+      };
+
+      this.http.post(`http://localhost:5019/api/Appointments/Create`, data).subscribe(res=> {
+        $("#addAppointmentModal").modal('hide');
+        this.getDoctorAppointments();
+        this.addModel = new AppointmentModel();
+      });
+      
     }
   }
 
